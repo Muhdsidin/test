@@ -52,7 +52,7 @@ export default function BlogListingPage() {
         <Button asChild>
           <Link href="/admin/posts/new">
             <PlusCircle className="mr-2 h-5 w-5" />
-            New Post
+            Create
           </Link>
         </Button>
       </div>

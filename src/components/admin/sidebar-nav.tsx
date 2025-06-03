@@ -7,8 +7,8 @@ import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui
 import { cn } from '@/lib/utils';
 
 const navItems = [
-  { href: '/admin/posts', label: 'Blog Posts', icon: LayoutDashboard },
-  { href: '/admin/posts/new', label: 'New Post', icon: PlusSquare },
+  { href: '/admin/posts', label: 'Blogs', icon: LayoutDashboard },
+  { href: '/admin/posts/new', label: 'Create', icon: PlusSquare },
 ];
 
 export function SidebarNav() {

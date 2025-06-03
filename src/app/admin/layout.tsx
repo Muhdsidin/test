@@ -8,7 +8,7 @@ import {
   SidebarInset,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { OrionLogo } from '@/components/icons/logo';
+import { StartexHubLogo } from '@/components/icons/startex-hub-logo'; // Changed import
 import { SidebarNav } from '@/components/admin/sidebar-nav';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -19,10 +19,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       <Sidebar collapsible="icon" className="border-r border-sidebar-border">
         <SidebarHeader className="p-4">
           <div className="flex items-center gap-2">
-            <OrionLogo />
-            <h1 className="font-headline text-xl font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent group-data-[collapsible=icon]:hidden">
-              Orion Admin
-            </h1>
+            {/* Changed to StartexHubLogo, removed adjacent h1 */}
+            <StartexHubLogo className="h-7 w-auto" /> 
           </div>
         </SidebarHeader>
         <SidebarContent>
@@ -31,7 +29,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         <SidebarFooter className="p-2 group-data-[collapsible=icon]:hidden">
           <Separator className="my-2" />
           <p className="text-xs text-sidebar-foreground/70">
-            &copy; {new Date().getFullYear()} Orion
+            &copy; {new Date().getFullYear()} Startex Hub {/* Updated company name */}
           </p>
         </SidebarFooter>
       </Sidebar>

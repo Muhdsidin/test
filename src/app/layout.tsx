@@ -3,8 +3,8 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'Orion Admin',
-  description: 'Admin panel for managing blog content.',
+  title: 'Startex Admin ',
+  description: 'Admin Side Of Startex Blog',
 };
 
 export default function RootLayout({

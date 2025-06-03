@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Lock, Mail } from 'lucide-react';
 import Link from 'next/link';
+import { StartexHubLogo } from '@/components/icons/startex-hub-logo'; // Changed import
 
 export default function LoginPage() {
   const handleSubmit = (event: React.FormEvent) => {
@@ -27,33 +28,14 @@ export default function LoginPage() {
       <Card className="w-full max-w-md shadow-xl border-border/50">
         <CardHeader className="text-center space-y-2">
           <Link href="/" aria-label="Back to home">
-             {/* You can use your OrionLogo component here if you export it or create a simplified one */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-12 w-12 mx-auto text-primary"
-            >
-              <defs>
-                <linearGradient id="loginLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: 1 }} />
-                  <stop offset="100%" style={{ stopColor: 'hsl(var(--accent))', stopOpacity: 1 }} />
-                </linearGradient>
-              </defs>
-              <path d="M12 2L2 7l10 5 10-5-10-5z" fill="url(#loginLogoGradient)" stroke="url(#loginLogoGradient)" />
-              <path d="M2 17l10 5 10-5" stroke="url(#loginLogoGradient)" />
-              <path d="M2 12l10 5 10-5" stroke="url(#loginLogoGradient)" />
-            </svg>
+            {/* Changed to StartexHubLogo */}
+            <StartexHubLogo className="h-10 w-auto mx-auto" />
           </Link>
           <CardTitle className="font-headline text-3xl font-bold">
             Sign In
           </CardTitle>
           <CardDescription className="text-muted-foreground">
-            Access your Orion Admin panel.
+            Access your Startex Hub Admin panel. {/* Updated text */}
           </CardDescription>
         </CardHeader>
         <CardContent>
