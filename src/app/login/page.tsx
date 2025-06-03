@@ -32,10 +32,10 @@ export default function LoginPage() {
             <StartexHubLogo className="h-10 w-auto mx-auto" />
           </Link>
           <CardTitle className="font-headline text-3xl font-bold">
-            Sign In
+            Log In
           </CardTitle>
           <CardDescription className="text-muted-foreground">
-            Access your Startex Hub Admin panel. {/* Updated text */}
+            Access For  Startex Hub Admin panel. {/* Updated text */}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -72,23 +72,23 @@ export default function LoginPage() {
                     <Checkbox id="remember-me" />
                     <Label htmlFor="remember-me">Remember me</Label>
                 </div> */}
-                <Link
+                {/* <Link
                 href="#"
                 className="font-medium text-primary hover:text-primary/80 hover:underline"
                 >
                 Forgot password?
-                </Link>
+                </Link> */}
             </div>
             <Button type="submit" className="w-full font-semibold text-base py-3 h-11">
               Sign In
             </Button>
           </form>
-          <p className="mt-8 text-center text-sm text-muted-foreground">
+          {/* <p className="mt-8 text-center text-sm text-muted-foreground">
             Don&apos;t have an account?{' '}
             <Link href="#" className="font-medium text-primary hover:text-primary/80 hover:underline">
               Sign up
             </Link>
-          </p>
+          </p> */}
         </CardContent>
       </Card>
     </div>
