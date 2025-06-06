@@ -11,7 +11,7 @@ export default function NewPostPage() {
   const { addPost } = useBlogPosts();
   const { toast } = useToast();
 
-  const handleSubmit = async (data: Omit<BlogPost, 'id' | 'publishDate'> & { publishDate: Date }) => {
+  const handleSubmit = async (data: any) => {
     try {
       addPost(data);
       toast({
@@ -31,7 +31,7 @@ export default function NewPostPage() {
 
   return (
     <div className="container mx-auto">
-      <BlogForm mode="create" onSubmit={handleSubmit} />
+      <BlogForm mode="create" onSubmit={handleSubmit} initialData={undefined} />
     </div>
   );
 }

@@ -1,5 +1,4 @@
 'use client';
-
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { PlusCircle, Edit2, Trash2, Eye } from 'lucide-react';
@@ -28,19 +27,41 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useToast } from '@/hooks/use-toast';
 import Image from 'next/image';
+import axios from "axios"
+import { useEffect, useState } from 'react';
 
-export default function BlogListingPage() {
+
+export default  function BlogListingPage() {
   const { posts, deletePost } = useBlogPosts();
+  const [post , setPost] = useState([])
   const router = useRouter();
   const { toast } = useToast();
 
-  const handleDelete = (postId: string) => {
-    deletePost(postId);
+  const handleDelete = async (postId: string) => {
+   const response = await axios("/api/delete-blog", {method:"POST",data:{id:postId}})
+   console.log(response.data)
+   handleGetRequest()
     toast({
       title: "Post Deleted",
       description: "The blog post has been successfully deleted.",
     });
   };
+
+const  handleGetRequest =async()=>{
+    try {
+      const response = await axios("/api/get-blog");
+      setPost(response.data)
+      console.log(response.data)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(()=>{
+    handleGetRequest()
+  },[])
+  // const data = await getBlogPost()
+  // console.log(data)
 
   return (
     <div className="container mx-auto">
@@ -57,7 +78,7 @@ export default function BlogListingPage() {
         </Button>
       </div>
 
-      {posts.length === 0 ? (
+      {post.length === 0 ? (
          <Card className="text-center py-12">
             <CardHeader>
               <CardTitle className="font-headline text-2xl">No Blog Posts Yet</CardTitle>
@@ -80,24 +101,24 @@ export default function BlogListingPage() {
               <TableHeader>
                 <TableRow>
                   <TableHead className="font-headline">Title</TableHead>
-                  <TableHead className="font-headline hidden md:table-cell">Author</TableHead>
-                  <TableHead className="font-headline hidden sm:table-cell">Publish Date</TableHead>
+                  <TableHead className="font-headline hidden md:table-cell">Tag</TableHead>
+                  <TableHead className="font-headline hidden sm:table-cell">Heading</TableHead>
                   <TableHead className="font-headline text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {posts.map((post) => (
-                  <TableRow key={post.id}>
+                {post.map((post : any) => (
+                  <TableRow key={post._id}>
                     <TableCell className="font-medium">{post.title}</TableCell>
-                    <TableCell className="hidden md:table-cell">{post.author}</TableCell>
+                    <TableCell className="hidden md:table-cell">{post.tag}</TableCell>
                     <TableCell className="hidden sm:table-cell">
-                      <Badge variant="outline">{new Date(post.publishDate).toLocaleDateString()}</Badge>
+                      <Badge variant="outline">{post.heading}</Badge>
                     </TableCell>
                     <TableCell className="text-right">
                       <Button
                         variant="ghost"
                         size="icon"
-                        onClick={() => router.push(`/admin/posts/${post.id}/edit`)}
+                        onClick={() => router.push(`/admin/posts/${post._id}/edit`)}
                         aria-label="Edit Post"
                       >
                         <Edit2 className="h-4 w-4" />
@@ -118,7 +139,7 @@ export default function BlogListingPage() {
                           </AlertDialogHeader>
                           <AlertDialogFooter>
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => handleDelete(post.id)} className="bg-destructive hover:bg-destructive/90">
+                            <AlertDialogAction onClick={() => handleDelete(post._id)} className="bg-destructive hover:bg-destructive/90">
                               Delete
                             </AlertDialogAction>
                           </AlertDialogFooter>
