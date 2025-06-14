@@ -7,7 +7,7 @@ export async function POST(req) {
     const data = await req.json();
     const { Name, Message, Email, Phone  } = data;
 
-    if (!name || !message || !email || !phone) {
+    if (!Name || !Message || !Email || !Phone) {
       return NextResponse.json({
         message: "All fields are required",
         success: false
