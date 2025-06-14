@@ -5,7 +5,7 @@ import { connectDB } from '../../../config/database';
 export async function POST(req) {
   try {
     const data = await req.json();
-    const { name, message, email, phone  } = data;
+    const { Name, Message, Email, Phone  } = data;
 
     if (!name || !message || !email || !phone) {
       return NextResponse.json({
@@ -17,7 +17,7 @@ export async function POST(req) {
 
     await connectDB();
 
-    const formUpload = await Form.create({ name, message, email, phone });
+    const formUpload = await Form.create({ name : Name, message : Message, email : Email  , phone : Phone  });
     console.log(formUpload);
 
     return NextResponse.json({
