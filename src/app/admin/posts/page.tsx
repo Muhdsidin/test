@@ -33,6 +33,7 @@ import { useEffect, useState } from 'react';
 
 export default  function BlogListingPage() {
   const { posts, deletePost } = useBlogPosts();
+  const [loading , setLoading] = useState(false)
   const [post , setPost] = useState([])
   const router = useRouter();
   const { toast } = useToast();
@@ -49,9 +50,11 @@ export default  function BlogListingPage() {
 
 const  handleGetRequest =async()=>{
     try {
+      setLoading(true)
       const response = await axios("/api/get-blog");
       setPost(response.data)
       console.log(response.data)
+      setLoading(false)
     } catch (error) {
       console.error(error)
     }
@@ -77,6 +80,8 @@ const  handleGetRequest =async()=>{
           </Link>
         </Button>
       </div>
+
+     {loading && <p>Loading...</p>}
 
       {post.length === 0 ? (
          <Card className="text-center py-12">
