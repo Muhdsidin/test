@@ -1,19 +1,23 @@
-import { NextResponse } from 'next/server';
-import { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
+import { verifyToken } from './utils/verify'
 
-export function middleware(request) {
-    //set cookie 
-     const { pathname } = request.nextUrl
-    
-    const token = request.cookies.get('token');
-    console.log(token , "jksjflkdjfl")
-     const isPublicPath = pathname === '/login' || pathname.startsWith('/api/login')
+const PASS_WORD = "password"
 
-    if (!token && !isPublicPath) {
-        return NextResponse.redirect(new URL('/login', request.url));
-    }
+export async function middleware(request) {
+  const { pathname } = request.nextUrl
 
-    return //NextResponse.redirect(new URL('/', request.url));
+  const token = request.cookies.get('token')?.value // ✅ Safe access
+
+  const isPublicPath = pathname === '/login' || pathname.startsWith('/api/login')
+
+  const verify = token ? await verifyToken(token) : null // ✅ Only verify if token exists
+
+  if ((!token || !verify || verify.password !== PASS_WORD) && !isPublicPath) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+
+  return NextResponse.next()
 }
 
 export const config = {
