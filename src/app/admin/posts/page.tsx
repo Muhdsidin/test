@@ -81,24 +81,12 @@ const  handleGetRequest =async()=>{
         </Button>
       </div>
 
-     {loading && <p>Loading...</p>}
+     
 
       {post.length === 0 ? (
-         <Card className="text-center py-12">
-            <CardHeader>
-              <CardTitle className="font-headline text-2xl">No Blog Posts Yet</CardTitle>
-              <CardDescription>Ready to share your thoughts? Create your first blog post!</CardDescription>
-            </CardHeader>
-            <CardContent>
-               <Image src="https://placehold.co/400x300.png" alt="Empty state illustration" width={400} height={300} className="mx-auto mb-6 rounded-md shadow-md" data-ai-hint="writer computer"/>
-              <Button asChild size="lg">
-                <Link href="/admin/posts/new">
-                  <PlusCircle className="mr-2 h-5 w-5" />
-                  Create First Post
-                </Link>
-              </Button>
-            </CardContent>
-          </Card>
+         <div className="flex items-center justify-center h-96">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500" />
+      </div>
       ) : (
         <Card>
           <CardContent className="p-0">

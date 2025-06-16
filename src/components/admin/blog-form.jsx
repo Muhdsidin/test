@@ -173,7 +173,7 @@ export function BlogForm({ mode, initialData, onSubmit }) {
                       
                       />
                     </FormControl>
-                    <Button
+                    {/* <Button
                       type="button"
                       variant="outline"
                       onClick={handleGenerateTitle}
@@ -190,7 +190,7 @@ export function BlogForm({ mode, initialData, onSubmit }) {
                         )}
                       />
                       {isGeneratingTitle ? "Generating..." : "Generate"}
-                    </Button>
+                    </Button> */}
                   </div>
                   <FormMessage />
                 </FormItem>
