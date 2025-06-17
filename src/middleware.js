@@ -21,6 +21,11 @@ export async function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/((?!_next/|static/|favicon.ico).*)'],
+  matcher: [
+    // '/((?!_next/|static/|favicon.ico).*)',
+    '/admin/:path*',
+    '/api/delete-blog',
+    
+  ],
 }
 

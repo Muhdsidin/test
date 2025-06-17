@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FileText, LayoutDashboard, PlusSquare , Calendar } from 'lucide-react';
+import { FileText, LayoutDashboard, PlusSquare , Calendar, FileTextIcon } from 'lucide-react';
 import { SidebarMenu, SidebarMenuItem, SidebarMenuButton } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 
@@ -10,6 +10,7 @@ const navItems = [
   { href: '/admin/posts', label: 'Blogs', icon: LayoutDashboard },
   { href: '/admin/posts/new', label: 'Create-Blog', icon: PlusSquare },
   { href: '/admin/hiring', label: 'Hire-Someone', icon: Calendar },
+  { href: '/admin/form', label: 'Forms', icon: FileTextIcon},
 ];
 
 export function SidebarNav() {
