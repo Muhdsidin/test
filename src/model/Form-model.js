@@ -17,6 +17,10 @@ const FormModel = new mongoose.Schema({
     required : true,
     type : String
   },
+  requirement :{
+    required : true,
+    type : String
+  }
 });
 
 const Form = mongoose.models.Form || mongoose.model("Form", FormModel);
