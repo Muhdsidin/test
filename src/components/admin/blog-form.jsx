@@ -37,20 +37,18 @@ import {
 import { cn } from "@/lib/utils";
 import { generateBlogTitle } from "@/ai/flows/generate-blog-title";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
-import {uploadToCloudinary} from "../../actions/upload"
+import { useEffect, useState } from "react";
+import { uploadToCloudinary } from "../../actions/upload";
 
 const blogFormSchema = z.object({
   title: z.string().min(5).max(100),
   description: z.string().min(20),
 
   heading: z.string().min(3), // ✅ new
-  tag: z.string().min(2),     // ✅ new
-  
-  photo1Url: z.string().url().optional().or(z.literal("")),
- 
-});
+  tag: z.string().min(2), // ✅ new
 
+  photo1Url: z.string().url().optional().or(z.literal("")),
+});
 
 export function BlogForm({ mode, initialData, onSubmit }) {
   const router = useRouter();
@@ -60,31 +58,54 @@ export function BlogForm({ mode, initialData, onSubmit }) {
   const [description, setDescription] = useState("");
   const [heading, setHeading] = useState("");
   const [tag, setTag] = useState("");
-
+  const [errors, setErrors] = useState({});
+  
   const [image, setImage] = useState(null);
-  console.log(image , heading , title, description , tag)
-
-  const  handleSumbit  = async()=>{
-    try {
-     
+  console.log(image, heading, title, description, tag);
+  
+  const handleSumbit = async (e) => {
     
+    e.preventDefault();
+
+    const newErrors = {};
+
+    if (title.trim().length < 5)
+      newErrors.title = "Title must be at least 5 characters.";
+    if (description.trim().length < 20)
+      newErrors.description = "Description must be at least 20 characters.";
+    if (heading.trim().length < 3)
+      newErrors.heading = "Heading must be at least 3 characters.";
+    if (tag.trim().length < 2)
+      newErrors.tag = "Tag must be at least 2 characters.";
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
+    
+    const formData = new FormData(e.target);
+    const response = await uploadToCloudinary(formData);
+    console.log(response);
+
+    setErrors({});
+    if(newErrors.length > 0) return 
+
+    try {
       toast({
-        title: 'Post Created! ',
+        title: "Post Created!",
         description: `"${title}" has been successfully created.`,
       });
-      router.push('/');
+      router.push("/");
     } catch (error) {
-      console.error('Failed to create post:', error);
+      console.error("Failed to create post:", error);
       toast({
-        title: 'Error Creating Post',
-        description: 'Something went wrong. Please try again.',
-        variant: 'destructive',
+        title: "Error Creating Post",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
       });
     }
-  }
-
- 
-
+  };
 
   const defaultValues = initialData
     ? {
@@ -107,42 +128,6 @@ export function BlogForm({ mode, initialData, onSubmit }) {
     defaultValues,
   });
 
-  const handleGenerateTitle = async () => {
-    const content = form.getValues("content");
-    if (!content || content.length < 20) {
-      toast({
-        title: "Content too short",
-        description:
-          "Please write at least 20 characters of content to generate a title.",
-        variant: "destructive",
-      });
-      return;
-    }
-    setIsGeneratingTitle(true);
-    try {
-      const result = await generateBlogTitle({ content });
-      if (result.title) {
-        form.setValue("title", result.title, { shouldValidate: true });
-        toast({
-          title: "Title Generated!",
-          description: "A new title has been generated based on your content.",
-        });
-      }
-    } catch (error) {
-      console.error("Error generating title:", error);
-      toast({
-        title: "Error",
-        description: "Could not generate title. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsGeneratingTitle(false);
-    }
-  };
-
-  const photo1Url = form.watch("photo1Url");
-  const photo2Url = form.watch("photo2Url");
-
   return (
     <Card>
       <CardHeader>
@@ -157,40 +142,26 @@ export function BlogForm({ mode, initialData, onSubmit }) {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={handleSumbit} action={uploadToCloudinary}  className="space-y-8">
+          <form onSubmit={handleSumbit} className="space-y-8">
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Title</FormLabel>
-                  <div className="flex items-center gap-2">
+                  <div className=" grid-cols-2 items-center gap-2">
                     <FormControl>
                       <Input
-                      name="title"
+                        name="title"
                         placeholder="Enter blog post title"
                         onChange={(e) => setTitle(e.target.value)}
-                      
                       />
                     </FormControl>
-                    {/* <Button
-                      type="button"
-                      variant="outline"
-                      onClick={handleGenerateTitle}
-                      disabled={
-                        isGeneratingTitle ||
-                        form.getValues("content").length < 20
-                      }
-                      className="shrink-0"
-                    >
-                      <Sparkles
-                        className={cn(
-                          "mr-2 h-4 w-4",
-                          isGeneratingTitle && "animate-spin"
-                        )}
-                      />
-                      {isGeneratingTitle ? "Generating..." : "Generate"}
-                    </Button> */}
+                    {errors.title && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.title}
+                      </p>
+                    )}
                   </div>
                   <FormMessage />
                 </FormItem>
@@ -211,6 +182,12 @@ export function BlogForm({ mode, initialData, onSubmit }) {
                       className="min-h-[200px] font-code"
                     />
                   </FormControl>
+                  {errors.description && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.description}
+                    </p>
+                  )}
+
                   <FormDescription>
                     The main body of your blog post. Use markdown for formatting
                     if needed.
@@ -234,6 +211,12 @@ export function BlogForm({ mode, initialData, onSubmit }) {
                         placeholder="heading Of the Post"
                       />
                     </FormControl>
+                    {errors.heading && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.heading}
+                      </p>
+                    )}
+
                     <FormMessage />
                   </FormItem>
                 )}
@@ -253,6 +236,11 @@ export function BlogForm({ mode, initialData, onSubmit }) {
                           placeholder="heading Of the Post"
                         />
                       </FormControl>
+                      {errors.tag && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.tag}
+                        </p>
+                      )}
                       <FormMessage />
                     </FormItem>
                     <FormMessage />
@@ -276,7 +264,7 @@ export function BlogForm({ mode, initialData, onSubmit }) {
                         accept="image/*"
                         onChange={(e) => {
                           const file = e.target.files?.[0];
-                          setImage(file)
+                          setImage(file);
                         }}
                         name="file"
                       />
@@ -337,7 +325,7 @@ export function BlogForm({ mode, initialData, onSubmit }) {
               >
                 Cancel
               </Button>
-              <Button type="submit"  disabled={form.formState.isSubmitting}>
+              <Button type="submit" disabled={form.formState.isSubmitting}>
                 {form.formState.isSubmitting
                   ? "Saving..."
                   : mode === "create"

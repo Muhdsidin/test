@@ -39,3 +39,24 @@ export async function GET(req){
         });
     }
 }
+
+export async function DELETE(req){
+    try {
+        await connectDB();
+        const data = await req.json();
+        const {id} = data
+        const hiring = await Hiring.findByIdAndDelete(id);
+        return NextResponse.json({
+            success : true,
+            message : "succesFully deleted "
+        });
+        
+    } catch (error) {
+        console.log(error.message)
+         return NextResponse.json({
+            success : false,
+            message : "Internal server error"
+        });
+    }
+}
+

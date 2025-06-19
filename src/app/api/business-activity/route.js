@@ -26,3 +26,18 @@ export async function POST (req){
             }, { status: 500 });
     }
 }
+
+export async function GET(req){
+    try {
+        await connectDB();
+        const activity = await ActivityModel.find();
+        return NextResponse.json(activity);
+    } catch (error) {
+         console.error(error);
+            return NextResponse.json({
+              message: "Internal server error",
+              error: error.message,
+              success: false
+            }, { status: 500 });
+    }
+}

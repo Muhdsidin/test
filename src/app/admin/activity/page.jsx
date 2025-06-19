@@ -36,7 +36,7 @@ function page() {
   const [data , setData]= useState([])
   const GetForms = async () => {
     try {
-      const response = await axios("/api/contact-form");
+      const response = await axios("/api/business-activity");
       setData(response.data);
       console.log(response.data)
     } catch (error) {
@@ -45,7 +45,7 @@ function page() {
   }
 
    const handleDelete = async (postId) => {
-     const response = await axios("/api/contact-form", {method:"DELETE",data:{id:postId}})
+     const response = await axios("/api/business-activity", {method:"DELETE",data:{id:postId}})
      console.log(response.data)
      GetForms()
       // toast({
@@ -67,7 +67,8 @@ GetForms()
                       <TableHead className="font-headline hidden md:table-cell">Name</TableHead>
                       <TableHead className="font-headline hidden sm:table-cell">phone</TableHead>
                       <TableHead className="font-headline hidden sm:table-cell">message</TableHead>
-                      <TableHead className="font-headline hidden sm:table-cell">requirement</TableHead>
+                      <TableHead className="font-headline hidden sm:table-cell">activity</TableHead>
+                      <TableHead className="font-headline hidden sm:table-cell">details</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -78,7 +79,8 @@ GetForms()
                         <TableCell className="hidden md:table-cell">{item.name}</TableCell>
                         <TableCell className="hidden md:table-cell">{item.phone}</TableCell>
                         <TableCell className="hidden md:table-cell">{item.message}</TableCell>
-                        <TableCell className="hidden md:table-cell">{item.requirement}</TableCell>
+                        <TableCell className="hidden md:table-cell">{item.activity}</TableCell>
+                        <TableCell className="hidden md:table-cell">{item.details}</TableCell>
                         <TableCell className="text-right">
                           
                           <AlertDialog>
