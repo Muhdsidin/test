@@ -66,16 +66,16 @@ export function EditForm({ mode, initialData, onSubmit }) {
   const [image, setImage] = useState(null);
   console.log(image , heading , title, description , tag)
 
+  const [loading , setLoading] = useState(false) 
+
   const  handleGetRequest =async()=>{
+    setLoading(true)
       try {
-        const response = await axios("/api/get-one-blog",{
-            headers : {
-                id : params.id
-            }
-        });
+        const response = await axios(`/api/get-blog/${params.id}`);
         // setPost(response.data)
         console.log(response.data)
         setData(response.data)
+        setLoading(false)
       } catch (error) {
         console.error(error)
       }
@@ -85,8 +85,13 @@ export function EditForm({ mode, initialData, onSubmit }) {
       handleGetRequest()
     },[])
 
-  const  handleSumbit  = async()=>{
+  const  handleSumbit  = async(e)=>{
     try {
+      e.preventDefault()
+       const formData = new FormData(e.target);
+          const response = await updateToCloudinary(formData);
+          console.log(response);
+
      
     
       toast({
@@ -163,6 +168,13 @@ export function EditForm({ mode, initialData, onSubmit }) {
 
   const photo1Url = form.watch("photo1Url");
   const photo2Url = form.watch("photo2Url");
+  if(loading){
+    return (
+       <div className="flex items-center justify-center h-96">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500" />
+      </div>
+    )
+  }
 
   return (
     <Card>

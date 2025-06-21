@@ -10,6 +10,7 @@ import {
   FileTextIcon,
   Activity,
   Album,
+  UsersRound
 } from "lucide-react";
 import {
   SidebarMenu,
@@ -36,7 +37,8 @@ const ActivityItems = [
 ];
 
 const FormItems = [
-    { href: "/admin/form", label: "Forms", icon: FileTextIcon },
+    { href: "/admin/form", label: "Message", icon: FileTextIcon },
+    { href: "/admin/consultant", label: "Consultant", icon: UsersRound },
 ];
 
 export function SidebarNav() {
